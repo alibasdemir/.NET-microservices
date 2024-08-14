@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Dtos;
+using PlatformService.Models;
 
 namespace PlatformService.Controllers
 {
@@ -38,6 +39,23 @@ namespace PlatformService.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpPost]
+        // Returns a 201 Created response with a location header pointing to the newly created resource.
+        public ActionResult<PlatformCreateDto> CreatePlatform(PlatformCreateDto platformCreateDto)
+        {
+            var platformModel = _mapper.Map<Platform>(platformCreateDto);
+            _repository.CreatePlatform(platformModel);
+            _repository.SaveChanges();
+
+            var platformReadDto = _mapper.Map<PlatformReadDto>(platformModel);
+
+            // The 'CreatedAtRoute' method generates the URL of the newly created resource using the 'GetPlatformById' route name.
+            // 'nameof(GetPlatformById)' specifies the route name for generating the URL.
+            // 'new { Id = platformReadDto.Id }' provides the route parameters needed for the URL, such as the new resource's ID.
+            // 'platformReadDto' is the body of the response, containing details of the newly created platform.
+            return CreatedAtRoute(nameof(GetPlatformById), new { Id = platformReadDto.Id }, platformReadDto);
         }
     }
 }
