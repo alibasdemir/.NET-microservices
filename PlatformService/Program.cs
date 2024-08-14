@@ -30,4 +30,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Call the PrepPopulation method to initialize the database with seed data
+// This ensures that the database is populated with initial data when the application starts
+PrepDb.PrepPopulation(app);
+
 app.Run();
