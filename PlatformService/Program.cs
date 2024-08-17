@@ -20,6 +20,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// This line logs the CommandService endpoint URL to the console during application startup.
+// It helps to verify that the configuration value for "CommandService" has been correctly loaded.
+// This is useful for debugging and ensuring the app is communicating with the correct service.
+Console.WriteLine($"---> CommandService Endpoint {builder.Configuration["CommandService"]}");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
