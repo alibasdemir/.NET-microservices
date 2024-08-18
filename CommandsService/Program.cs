@@ -16,7 +16,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Commented out app.UseHttpsRedirection() to avoid HTTPS redirection warning in Docker container.
+// The warning occurred because the HTTPS port was not determined, which is common in containerized environments.
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
