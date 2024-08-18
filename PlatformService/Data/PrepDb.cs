@@ -1,11 +1,12 @@
-﻿using PlatformService.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PlatformService.Models;
 
 namespace PlatformService.Data
 {
     public static class PrepDb
     {
         // This method is called to prepare the database with seed data
-        public static void PrepPopulation(IApplicationBuilder app)
+        public static void PrepPopulation(IApplicationBuilder app, bool isProd)
         {
             // Create a temporary scope to access services
             using (var serviceScope = app.ApplicationServices.CreateScope())
@@ -16,12 +17,24 @@ namespace PlatformService.Data
                 // within this scope will be disposed of when the scope is disposed. 
                 // ServiceProvider: Allows access to services within the created scope. 
                 // GetService<AppDbContext>(): Retrieves the AppDbContext instance to interact with the database.
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), isProd);
             }
         }
         // This method checks if the database is empty and, if so, adds initial data
-        private static void SeedData(AppDbContext context)
+        private static void SeedData(AppDbContext context, bool isProd)
         {
+            if (isProd)
+            {
+                Console.WriteLine("---> Attempting to apply migrations...");
+                try
+                {
+                    context.Database.Migrate();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"---> Could not run migrations: {ex.Message}");
+                }
+            }
             // Check if there are any records in the Platforms table
             if (!context.Platforms.Any())
             {
