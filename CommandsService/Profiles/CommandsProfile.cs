@@ -12,6 +12,11 @@ namespace CommandsService.Profiles
             CreateMap<Platform, PlatformReadDto>();
             CreateMap<CommandCreateDto, Command>();
             CreateMap<Command, CommandReadDto>();
+
+            // Configure AutoMapper to map properties from PlatformPublishedDto to Platform
+            // Map the Id property from PlatformPublishedDto to the ExternalID property in Platform
+            CreateMap<PlatformPublishedDto, Platform>()
+                .ForMember(dest => dest.ExternalID, opt => opt.MapFrom(src => src.Id));
         }
     }
 }
