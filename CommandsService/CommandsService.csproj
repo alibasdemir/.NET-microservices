@@ -24,4 +24,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Protos\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Protos\platforms.proto" GrpcServices="Client" />
+	</ItemGroup>
+
 </Project>
