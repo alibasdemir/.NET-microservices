@@ -57,7 +57,7 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapGrpcService<GrpcPlatformService>();
 app.MapGet("/protos/platforms.proto", async context => 
-    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.protp"))
+    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"))
 );
 
 // Call the PrepPopulation method to initialize the database with seed data
